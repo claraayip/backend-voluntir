@@ -1,3 +1,7 @@
-use App\Http\Controllers\KegiatanController;
+<?php
 
-Route::post('/kegiatan', [KegiatanController::class, 'store']);
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});

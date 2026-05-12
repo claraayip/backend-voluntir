@@ -9,11 +9,11 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 
-// 🔓 AUTH
+// AUTH
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// 🔐 PROTECTED ROUTES
+// PROTECTED
 Route::middleware('auth:sanctum')->group(function () {
 
     // AUTH
@@ -43,5 +43,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/favorites', [FavoriteController::class, 'store']);
     Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy']);
 
+    // DASHBOARD
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
 });
