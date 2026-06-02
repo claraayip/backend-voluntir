@@ -48,8 +48,9 @@ class PendaftaranController extends Controller
         // ✅ SIMPAN
         $pendaftaran = Pendaftaran::create([
             'user_id' => $request->user()->id,
-            'kegiatan_id' => $request->kegiatan_id
-        ]);
+            'kegiatan_id' => $request->kegiatan_id,
+            'status' => 'Menunggu'      
+            ]);
 
         // ✅ KURANGI KUOTA
         $kegiatan->decrement('kuota');
@@ -83,5 +84,32 @@ class PendaftaranController extends Controller
                 ->where('kegiatan_id', $id)
                 ->get()
         );
+    }
+
+    // ORGANIZER APPROVE DAN REJECT VOLUNTEER
+    public function approve($id)
+    {
+    $pendaftaran = Pendaftaran::findOrFail($id);
+
+    $pendaftaran->update([
+        'status' => 'Diterima'
+    ]);
+
+    return response()->json([
+        'message' => 'Volunteer diterima'
+    ]);
+    }   
+
+    public function reject($id)
+    {
+    $pendaftaran = Pendaftaran::findOrFail($id);
+
+    $pendaftaran->update([
+        'status' => 'Ditolak'
+    ]);
+
+    return response()->json([
+        'message' => 'Volunteer ditolak'
+    ]);
     }
 }

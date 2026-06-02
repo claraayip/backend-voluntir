@@ -29,20 +29,6 @@ class KegiatanController extends Controller
 
         $kegiatan = $query->get();
 
-        // 🎯 STATUS OTOMATIS
-        $kegiatan->map(function ($item) {
-
-            if ($item->kuota <= 0) {
-                $item->status = 'penuh';
-            } elseif ($item->tanggal < now()->toDateString()) {
-                $item->status = 'selesai';
-            } else {
-                $item->status = 'tersedia';
-            }
-
-            return $item;
-        });
-
         return response()->json($kegiatan);
     }
 
@@ -58,6 +44,7 @@ class KegiatanController extends Controller
             'durasi' => 'required',
             'kuota' => 'required|integer|min:1',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+
         ]);
 
         // 🖼 Upload gambar
@@ -66,6 +53,8 @@ class KegiatanController extends Controller
                 ->store('kegiatan', 'public');
         }
 
+        $validated['organizer_id'] = $request->user()->id;
+        $validated['status'] = 'Menunggu';
         $data = Kegiatan::create($validated);
 
         return response()->json([
@@ -121,6 +110,34 @@ class KegiatanController extends Controller
 
         return response()->json([
             'message' => 'Data berhasil dihapus'
+        ]);
+    }
+
+    // ✅ APPROVE KEGIATAN
+    public function approve($id)
+    {
+        $kegiatan = Kegiatan::findOrFail($id);
+
+        $kegiatan->update([
+            'status' => 'Diterima'
+        ]);
+
+        return response()->json([
+            'message' => 'Kegiatan disetujui'
+        ]);
+    }
+
+    // ❌ REJECT KEGIATAN
+    public function reject($id)
+    {
+        $kegiatan = Kegiatan::findOrFail($id);
+
+        $kegiatan->update([
+            'status' => 'Ditolak'
+        ]);
+
+        return response()->json([
+            'message' => 'Kegiatan ditolak'
         ]);
     }
 }

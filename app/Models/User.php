@@ -17,7 +17,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'foto'
+        'foto',
+        'role'
     ];
 
     protected $hidden = [
@@ -41,5 +42,10 @@ class User extends Authenticatable
     public function favorites()
     {
     return $this->hasMany(Favorite::class);
+    }
+    
+    public function kegiatans()
+    {
+    return $this->hasMany(Kegiatan::class, 'organizer_id');
     }
 }
