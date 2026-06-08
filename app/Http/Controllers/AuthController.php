@@ -49,6 +49,23 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user
         ]);
+        
+    }
+
+    public function users()
+    {
+    return response()->json(
+        \App\Models\User::all()
+    );
+
+    return response()->json(
+        User::select(
+            'id',
+            'name',
+            'email',
+            'role'
+        )->get()
+    );
     }
 
     // ✅ LOGOUT

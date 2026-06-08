@@ -43,8 +43,13 @@ class KegiatanController extends Controller
             'kategori' => 'required',
             'durasi' => 'required',
             'kuota' => 'required|integer|min:1',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
 
+            'nama_penanggung_jawab' => 'nullable|string',
+            'telepon' => 'nullable|string',
+            'email_kontak' => 'nullable|email',
+            'jam' => 'nullable',
+
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         // 🖼 Upload gambar
@@ -84,6 +89,12 @@ class KegiatanController extends Controller
             'kategori' => 'required',
             'durasi' => 'required',
             'kuota' => 'required|integer|min:1',
+
+            'nama_penanggung_jawab' => 'nullable|string',
+            'telepon' => 'nullable|string',
+            'email_kontak' => 'nullable|email',
+            'jam' => 'nullable',
+
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 

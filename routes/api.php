@@ -12,8 +12,12 @@ use App\Http\Controllers\DashboardController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+
 Route::get('/kegiatan', [KegiatanController::class, 'index']);
 Route::get('/kegiatan/{id}', [KegiatanController::class, 'show']);
+
+Route::get('/users', [AuthController::class, 'users']);
 
 // PROTECTED
 Route::middleware('auth:sanctum')->group(function () {
@@ -36,4 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/kegiatan/{id}/approve', [KegiatanController::class, 'approve']);
 
     Route::put('/kegiatan/{id}/reject', [KegiatanController::class, 'reject']);
+
+    Route::get('/organizer/peserta', [PendaftaranController::class, 'organizerPeserta']);
+    
 });

@@ -2,30 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Kegiatan;
 use App\Models\Pendaftaran;
 
 class DashboardController extends Controller
 {
     public function stats()
-    {
-        $totalKegiatan = Kegiatan::count();
+{
+    return response()->json([
+        'total_user' => \App\Models\User::where('role', 'user')->count(),
 
-        $totalPeserta = Pendaftaran::count();
+        'total_organizer' => \App\Models\User::where('role', 'organizer')->count(),
 
-        $kegiatanPenuh = Kegiatan::where('kuota', '<=', 0)->count();
+        'total_kegiatan' => Kegiatan::count(),
 
-        $kegiatanSelesai = Kegiatan::where(
-            'tanggal',
-            '<',
-            now()->toDateString()
-        )->count();
+        'kegiatan_pending' => Kegiatan::where('status', 'Menunggu')->count(),
 
-        return response()->json([
-            'total_kegiatan' => $totalKegiatan,
-            'total_peserta' => $totalPeserta,
-            'kegiatan_penuh' => $kegiatanPenuh,
-            'kegiatan_selesai' => $kegiatanSelesai,
-        ]);
+        'kegiatan_approved' => Kegiatan::where('status', 'Diterima')->count(),
+    ]);
     }
 }

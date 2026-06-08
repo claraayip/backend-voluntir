@@ -112,4 +112,21 @@ class PendaftaranController extends Controller
         'message' => 'Volunteer ditolak'
     ]);
     }
+
+    public function organizerPeserta(Request $request)
+    {
+    $data = Pendaftaran::with([
+        'user',
+        'kegiatan'
+    ])
+    ->whereHas('kegiatan', function ($query) use ($request) {
+        $query->where(
+            'organizer_id',
+            $request->user()->id
+        );
+    })
+    ->get();
+
+    return response()->json($data);
+    }   
 }
